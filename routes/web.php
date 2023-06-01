@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\ImageGeneratorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +23,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('homep');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -35,4 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/generate/img', [ImageGeneratorController::class, 'index'])->name('generate.img.index');
+Route::post('/generate/img', [ImageGeneratorController::class, 'generateImage'])->name('generate.img');
 require __DIR__.'/auth.php';
