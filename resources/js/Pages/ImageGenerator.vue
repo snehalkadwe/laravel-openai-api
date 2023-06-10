@@ -12,12 +12,17 @@ const form = {
     n: 1,
     size: "1024x1024",
 };
+const isLoading = ref(false);
 
 const getImg = async () => {
+    isLoading.value = true;
     const {
         data: { data },
     } = await axios.post(route("generate.img"), form);
     images.value = data;
+    if (data) {
+        isLoading.value = false;
+    }
 };
 </script>
 <template>
@@ -39,11 +44,15 @@ const getImg = async () => {
                         v-model="form.prompt"
                     />
                     <button
+                        :class="{ 'w-28': isLoading }"
                         class="inline-flex items-center flex-shrink-0 bg-lime-500 hover:bg-lime-700 border-lime-500 hover:border-lime-700 text-sm border-4 text-white py-1 px-5 rounded"
                         type="submit"
                     >
                         Send
-                        <ArrowPathIcon />
+                        <ArrowPathIcon
+                            class="ml-3 animate-spin"
+                            v-if="isLoading"
+                        />
                     </button>
                 </div>
             </form>
@@ -56,3 +65,8 @@ const getImg = async () => {
         </div>
     </div>
 </template>
+<style>
+.showLoader {
+    margin-left: 20px;
+}
+</style>
