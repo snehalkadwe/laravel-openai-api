@@ -15,6 +15,9 @@ const form = {
 const isLoading = ref(false);
 
 const getImg = async () => {
+    if (images.value.length >= 0) {
+        images.value = [];
+    }
     isLoading.value = true;
     const {
         data: { data },
@@ -26,7 +29,7 @@ const getImg = async () => {
 };
 </script>
 <template>
-    <div class="container mx-auto py-8">
+    <div class="container mx-auto py-8 px-10">
         <p class="text-center text-lg font-bold p-4">
             Example of ChatGPT Image Generation
         </p>
@@ -48,7 +51,7 @@ const getImg = async () => {
                         class="inline-flex items-center flex-shrink-0 bg-lime-500 hover:bg-lime-700 border-lime-500 hover:border-lime-700 text-sm border-4 text-white py-1 px-5 rounded"
                         type="submit"
                     >
-                        Send
+                        Generate
                         <ArrowPathIcon
                             class="ml-3 animate-spin"
                             v-if="isLoading"
@@ -56,6 +59,10 @@ const getImg = async () => {
                     </button>
                 </div>
             </form>
+            <div
+                v-if="isLoading"
+                class="h-2 animate-pulse bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded"
+            ></div>
         </div>
 
         <div class="mt-8 w-full max-w-xl mx-auto">
